@@ -1,0 +1,348 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.hexagram-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.input-section {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+}
+
+.btn-group {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+button {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.btn-secondary {
+    background: #f0f0f0;
+    color: #333;
+}
+
+.btn-secondary:hover {
+    background: #e0e0e0;
+    transform: translateY(-2px);
+}
+
+.btn-secondary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.result-section {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.result-section h2 {
+    margin-bottom: 20px;
+    color: #333;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+}
+
+.hexagram-container-grid {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.hexagram {
+    flex: 1;
+    min-width: 300px;
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+.hexagram h3 {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #555;
+}
+
+.hexagram-name {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.yao-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.yao {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background: #f0f0f0;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+.yao:hover {
+    background: #e0e0e0;
+}
+
+.yao-label {
+    font-weight: bold;
+    width: 60px;
+}
+
+.yao-line {
+    flex: 1;
+    height: 20px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.yang {
+    width: 100%;
+    height: 4px;
+    background: #333;
+    position: relative;
+}
+
+.yin {
+    width: 100%;
+    height: 4px;
+    background: #333;
+    position: relative;
+}
+
+.yin::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    background: #f0f0f0;
+}
+
+.yao-move {
+    color: #e74c3c;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.interpretation-section {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.interpretation-section h2 {
+    margin-bottom: 20px;
+    color: #333;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+}
+
+.luck-badge {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.luck-badge.great-good {
+    background: #27ae60;
+    color: white;
+}
+
+.luck-badge.good {
+    background: #2ecc71;
+    color: white;
+}
+
+.luck-badge.neutral {
+    background: #f39c12;
+    color: white;
+}
+
+.luck-badge.bad {
+    background: #e67e22;
+    color: white;
+}
+
+.luck-badge.great-bad {
+    background: #e74c3c;
+    color: white;
+}
+
+.interpretation-text {
+    line-height: 1.8;
+    color: #555;
+}
+
+.history-section {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.history-section h2 {
+    margin-bottom: 20px;
+    color: #333;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+}
+
+.history-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.history-item {
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.history-item:hover {
+    background: #f9f9f9;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.history-item h4 {
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.history-item p {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.loading {
+    text-align: center;
+    padding: 50px;
+    font-size: 1.2rem;
+    color: #666;
+}
+
+.loading::after {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-left: 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+    .hexagram-container {
+        padding: 10px;
+    }
+
+    .hexagram-container-grid {
+        flex-direction: column;
+    }
+
+    .hexagram {
+        min-width: 100%;
+    }
+
+    .btn-group {
+        flex-direction: column;
+    }
+
+    button {
+        width: 100%;
+    }
+}

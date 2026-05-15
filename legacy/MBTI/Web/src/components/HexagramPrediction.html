@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>六爻预测 · 纳甲起卦</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SimSun', '宋体', serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px 0;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .input-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+            transform: translateY(-2px);
+        }
+
+        .result-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .result-section h2 {
+            margin-bottom: 20px;
+            color: #333;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+
+        .hexagram-container {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .hexagram {
+            flex: 1;
+            min-width: 300px;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .hexagram h3 {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .hexagram-name {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .yao-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .yao {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .yao:hover {
+            background: #e0e0e0;
+        }
+
+        .yao-label {
+            font-weight: bold;
+            width: 60px;
+        }
+
+        .yao-line {
+            flex: 1;
+            height: 20px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .yang {
+            width: 100%;
+            height: 4px;
+            background: #333;
+            position: relative;
+        }
+
+        .yin {
+            width: 100%;
+            height: 4px;
+            background: #333;
+            position: relative;
+        }
+
+        .yin::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            background: #f0f0f0;
+        }
+
+        .yao-move {
+            color: #e74c3c;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .interpretation-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .interpretation-section h2 {
+            margin-bottom: 20px;
+            color: #333;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+
+        .luck-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .luck-badge.great-good {
+            background: #27ae60;
+            color: white;
+        }
+
+        .luck-badge.good {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .luck-badge.neutral {
+            background: #f39c12;
+            color: white;
+        }
+
+        .luck-badge.bad {
+            background: #e67e22;
+            color: white;
+        }
+
+        .luck-badge.great-bad {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .interpretation-text {
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .history-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .history-section h2 {
+            margin-bottom: 20px;
+            color: #333;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+
+        .history-item {
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .history-item:hover {
+            background: #f9f9f9;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .history-item h4 {
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .history-item p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .hexagram-container {
+                flex-direction: column;
+            }
+
+            .hexagram {
+                min-width: 100%;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>六爻预测 · 纳甲起卦</h1>
+            <p>诚心问事，至诚则灵</p>
+        </header>
+
+        <div class="input-section">
+            <div class="form-group">
+                <label for="question">所问之事：</label>
+                <input type="text" id="question" placeholder="例如：这次工作面试结果如何？" />
+            </div>
+            <div class="btn-group">
+                <button class="btn-primary" id="startBtn">诚心起卦</button>
+                <button class="btn-secondary" id="resetBtn">重新起卦</button>
+            </div>
+        </div>
+
+        <div class="result-section" id="resultSection" style="display: none;">
+            <h2>卦象结果</h2>
+            <div class="hexagram-container">
+                <div class="hexagram">
+                    <h3>本卦</h3>
+                    <div class="hexagram-name" id="originalHexagramName"></div>
+                    <div class="yao-container" id="originalYaoContainer"></div>
+                </div>
+                <div class="hexagram">
+                    <h3>变卦</h3>
+                    <div class="hexagram-name" id="changedHexagramName"></div>
+                    <div class="yao-container" id="changedYaoContainer"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="interpretation-section" id="interpretationSection" style="display: none;">
+            <h2>吉凶解读</h2>
+            <div class="luck-badge" id="luckBadge"></div>
+            <div class="interpretation-text" id="interpretationText"></div>
+        </div>
+
+        <div class="history-section">
+            <h2>起卦历史</h2>
+            <div id="historyContainer"></div>
+        </div>
+
+        <div class="loading" id="loading" style="display: none;">
+            摇卦中...
+        </div>
+    </div>
+
+    <script>
+        // 先天八卦数
+        const baguaNumbers = {
+            '乾': 1,
+            '兑': 2,
+            '离': 3,
+            '震': 4,
+            '巽': 5,
+            '坎': 6,
+            '艮': 7,
+            '坤': 8
+        };
+
+        // 六十四卦映射表
+        const hexagramMap = [
+            { name: '乾为天', text: '元亨利贞', luck: 5 },
+            { name: '天风姤', text: '女壮，勿用取女', luck: 3 },
+            { name: '天山遁', text: '亨，小利贞', luck: 4 },
+            { name: '天地否', text: '否之匪人，不利君子贞', luck: 2 },
+            { name: '风地观', text: '盥而不荐，有孚颙若', luck: 3 },
+            { name: '山地剥', text: '不利有攸往', luck: 2 },
+            { name: '火地晋', text: '康侯用锡马蕃庶', luck: 4 },
+            { name: '火天大有', text: '元亨', luck: 5 },
+            { name: '泽天夬', text: '扬于王庭', luck: 4 },
+            { name: '兑为泽', text: '亨利贞', luck: 4 },
+            { name: '泽山咸', text: '亨利贞', luck: 4 },
+            { name: '泽地萃', text: '亨，王假有庙', luck: 4 },
+            { name: '泽风大过', text: '栋桡，利有攸往', luck: 2 },
+            { name: '泽火革', text: '己日乃孚', luck: 3 },
+            { name: '泽水困', text: '亨，贞大人吉', luck: 3 },
+            { name: '泽雷随', text: '元亨利贞', luck: 5 },
+            { name: '火山旅', text: '小亨，旅贞吉', luck: 3 },
+            { name: '火风鼎', text: '元吉亨', luck: 4 },
+            { name: '火水未济', text: '亨，小狐汔济', luck: 3 },
+            { name: '火雷噬嗑', text: '亨，利用狱', luck: 3 },
+            { name: '火地晋', text: '康侯用锡马蕃庶', luck: 4 },
+            { name: '火天大有', text: '元亨', luck: 5 },
+            { name: '离为火', text: '利贞，亨', luck: 4 },
+            { name: '雷火丰', text: '亨，王假之', luck: 4 },
+            { name: '雷山小过', text: '亨，利贞', luck: 3 },
+            { name: '雷风恒', text: '亨，无咎，利贞', luck: 4 },
+            { name: '雷水解', text: '亨，利西南', luck: 4 },
+            { name: '雷地豫', text: '利建侯行师', luck: 4 },
+            { name: '雷天壮', text: '利贞', luck: 4 },
+            { name: '震为雷', text: '亨，震来虩虩', luck: 3 },
+            { name: '泽雷随', text: '元亨利贞', luck: 5 },
+            { name: '巽为风', text: '小亨，利有攸往', luck: 3 },
+            { name: '风天小畜', text: '亨，密云不雨', luck: 3 },
+            { name: '风火家人', text: '利女贞', luck: 4 },
+            { name: '风雷益', text: '利有攸往', luck: 4 },
+            { name: '风泽中孚', text: '豚鱼吉', luck: 4 },
+            { name: '风山渐', text: '女归吉', luck: 4 },
+            { name: '风水涣', text: '亨，王假有庙', luck: 3 },
+            { name: '水风井', text: '改邑不改井', luck: 3 },
+            { name: '水天需', text: '有孚，光亨', luck: 3 },
+            { name: '水地比', text: '吉，原筮元永贞', luck: 4 },
+            { name: '坎为水', text: '习坎，有孚维心', luck: 2 },
+            { name: '水泽节', text: '亨，苦节不可贞', luck: 3 },
+            { name: '水雷屯', text: '元亨利贞', luck: 4 },
+            { name: '水火既济', text: '亨，小利贞', luck: 4 },
+            { name: '艮为山', text: '艮其背，不获其身', luck: 3 },
+            { name: '山火贲', text: '亨，小利有攸往', luck: 3 },
+            { name: '山天大畜', text: '利贞', luck: 4 },
+            { name: '山泽损', text: '有孚，元吉', luck: 3 },
+            { name: '山风蛊', text: '元亨，利涉大川', luck: 3 },
+            { name: '山水蒙', text: '亨，匪我求童蒙', luck: 3 },
+            { name: '山地剥', text: '不利有攸往', luck: 2 },
+            { name: '山雷颐', text: '贞吉', luck: 3 },
+            { name: '坤为地', text: '元亨，利牝马之贞', luck: 4 },
+            { name: '地雷复', text: '亨，出入无疾', luck: 4 },
+            { name: '地泽临', text: '元亨利贞', luck: 5 },
+            { name: '地天泰', text: '小往大来，吉亨', luck: 5 },
+            { name: '地风升', text: '元亨，用见大人', luck: 4 },
+            { name: '地水师', text: '贞，大人吉', luck: 3 },
+            { name: '地火明夷', text: '利艰贞', luck: 2 },
+            { name: '地山谦', text: '亨，君子有终', luck: 5 },
+            { name: '雷地豫', text: '利建侯行师', luck: 4 },
+            { name: '风地观', text: '盥而不荐，有孚颙若', luck: 3 },
+            { name: '泽地萃', text: '亨，王假有庙', luck: 4 },
+            { name: '天地否', text: '否之匪人，不利君子贞', luck: 2 },
+            { name: '山地剥', text: '不利有攸往', luck: 2 },
+            { name: '火地晋', text: '康侯用锡马蕃庶', luck: 4 },
+            { name: '地地坤', text: '元亨，利牝马之贞', luck: 4 }
+        ];
+
+        // 摇卦函数
+        function shake() {
+            // 模拟三枚硬币
+            const coins = [Math.random() > 0.5, Math.random() > 0.5, Math.random() > 0.5];
+            const heads = coins.filter(c => c).length;
+            
+            if (heads === 3) {
+                return 9; // 老阳
+            } else if (heads === 2) {
+                return 7; // 少阳
+            } else if (heads === 1) {
+                return 8; // 少阴
+            } else {
+                return 6; // 老阴
+            }
+        }
+
+        // 生成卦象
+        function generateHexagram() {
+            const yao = [];
+            for (let i = 0; i < 6; i++) {
+                yao.push(shake());
+            }
+            return yao;
+        }
+
+        // 根据卦象生成八卦
+        function getBagua(yao1, yao2, yao3) {
+            // 阳爻为1，阴爻为0
+            const y1 = (yao1 === 7 || yao1 === 9) ? 1 : 0;
+            const y2 = (yao2 === 7 || yao2 === 9) ? 1 : 0;
+            const y3 = (yao3 === 7 || yao3 === 9) ? 1 : 0;
+            
+            // 计算八卦数
+            const num = y1 * 4 + y2 * 2 + y3 * 1 + 1;
+            
+            // 映射到八卦名称
+            const baguaNames = ['乾', '兑', '离', '震', '巽', '坎', '艮', '坤'];
+            return baguaNames[num - 1];
+        }
+
+        // 获取卦名
+        function getHexagramName(yao) {
+            // 上卦：4、5、6爻
+            const upperBagua = getBagua(yao[3], yao[4], yao[5]);
+            // 下卦：1、2、3爻
+            const lowerBagua = getBagua(yao[0], yao[1], yao[2]);
+            
+            // 计算索引
+            const upperNum = baguaNumbers[upperBagua];
+            const lowerNum = baguaNumbers[lowerBagua];
+            const index = (upperNum - 1) * 8 + (lowerNum - 1);
+            
+            return hexagramMap[index].name;
+        }
+
+        // 生成变卦
+        function generateChangedHexagram(originalYao) {
+            return originalYao.map(y => {
+                if (y === 9) return 8; // 老阳变阴
+                if (y === 6) return 7; // 老阴变阳
+                return y;
+            });
+        }
+
+        // 渲染爻
+        function renderYao(yao, index) {
+            const yaoTypes = ['初爻', '二爻', '三爻', '四爻', '五爻', '上爻'];
+            const isYang = yao === 7 || yao === 9;
+            const isMove = yao === 9 || yao === 6;
+            
+            return `
+                <div class="yao">
+                    <span class="yao-label">${yaoTypes[index]}</span>
+                    <div class="yao-line">
+                        <div class="${isYang ? 'yang' : 'yin'}"></div>
+                    </div>
+                    ${isMove ? '<span class="yao-move">⚡动</span>' : ''}
+                </div>
+            `;
+        }
+
+        // 渲染卦象
+        function renderHexagram(yao, containerId, nameId) {
+            const container = document.getElementById(containerId);
+            const nameElement = document.getElementById(nameId);
+            
+            container.innerHTML = '';
+            nameElement.textContent = getHexagramName(yao);
+            
+            // 从下往上渲染（初爻在最下面）
+            for (let i = 0; i < 6; i++) {
+                container.innerHTML += renderYao(yao[i], i);
+            }
+        }
+
+        // 获取吉凶等级
+        function getLuckLevel(luck) {
+            if (luck === 5) return { level: 'great-good', text: '大吉' };
+            if (luck === 4) return { level: 'good', text: '吉' };
+            if (luck === 3) return { level: 'neutral', text: '平' };
+            if (luck === 2) return { level: 'bad', text: '凶' };
+            return { level: 'great-bad', text: '大凶' };
+        }
+
+        // 生成解读
+        function generateInterpretation(originalYao, changedYao, question) {
+            const originalName = getHexagramName(originalYao);
+            const changedName = getHexagramName(changedYao);
+            
+            // 计算动爻数量
+            const moveCount = originalYao.filter(y => y === 9 || y === 6).length;
+            
+            // 获取卦辞
+            const originalIndex = (baguaNumbers[getBagua(originalYao[3], originalYao[4], originalYao[5]) - 1) * 8 + (baguaNumbers[getBagua(originalYao[0], originalYao[1], originalYao[2]) - 1);
+            const originalText = hexagramMap[originalIndex].text;
+            
+            const changedIndex = (baguaNumbers[getBagua(changedYao[3], changedYao[4], changedYao[5]) - 1) * 8 + (baguaNumbers[getBagua(changedYao[0], changedYao[1], changedYao[2]) - 1);
+            const changedText = hexagramMap[changedIndex].text;
+            
+            // 生成解读文本
+            let interpretation = `为${question || '问事'}起卦，得本卦${originalName}，${originalText}；`;
+            
+            if (moveCount > 0) {
+                interpretation += `变卦${changedName}，${changedText}。`;
+                
+                if (moveCount === 1) {
+                    interpretation += '动爻单一，事情发展方向明确，宜把握时机。';
+                } else if (moveCount === 2) {
+                    interpretation += '动爻两个，事情变化多端，需灵活应对。';
+                } else if (moveCount === 3) {
+                    interpretation += '动爻三个，事情多有反复，需耐心等待。';
+                } else if (moveCount >= 4) {
+                    interpretation += '动爻较多，事态剧变，需谨慎应对。';
+                }
+            } else {
+                interpretation += '无动爻，静卦，事缓则圆，宜静观其变。';
+            }
+            
+            // 综合判断
+            const originalLuck = hexagramMap[originalIndex].luck;
+            const changedLuck = hexagramMap[changedIndex].luck;
+            const finalLuck = Math.max(originalLuck, changedLuck);
+            const luckInfo = getLuckLevel(finalLuck);
+            
+            interpretation += `综合判断为：${luckInfo.text}。`;
+            
+            return { interpretation, luckInfo };
+        }
+
+        // 保存历史
+        function saveHistory(question, originalName, changedName, interpretation) {
+            const history = JSON.parse(localStorage.getItem('hexagramHistory') || '[]');
+            history.unshift({
+                id: Date.now(),
+                question: question || '问事',
+                originalName,
+                changedName,
+                interpretation,
+                timestamp: new Date().toLocaleString()
+            });
+            // 只保留最近3条
+            if (history.length > 3) {
+                history.pop();
+            }
+            localStorage.setItem('hexagramHistory', JSON.stringify(history));
+            renderHistory();
+        }
+
+        // 渲染历史
+        function renderHistory() {
+            const history = JSON.parse(localStorage.getItem('hexagramHistory') || '[]');
+            const container = document.getElementById('historyContainer');
+            
+            if (history.length === 0) {
+                container.innerHTML = '<p>暂无历史记录</p>';
+                return;
+            }
+            
+            container.innerHTML = '';
+            history.forEach(item => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                historyItem.innerHTML = `
+                    <h4>${item.question}</h4>
+                    <p>${item.timestamp}</p>
+                    <p>本卦：${item.originalName}，变卦：${item.changedName}</p>
+                    <p>${item.interpretation}</p>
+                `;
+                container.appendChild(historyItem);
+            });
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            renderHistory();
+            
+            document.getElementById('startBtn').addEventListener('click', function() {
+                const question = document.getElementById('question').value;
+                
+                // 显示加载
+                document.getElementById('loading').style.display = 'block';
+                
+                // 模拟摇卦过程
+                setTimeout(() => {
+                    const originalYao = generateHexagram();
+                    const changedYao = generateChangedHexagram(originalYao);
+                    
+                    // 渲染卦象
+                    renderHexagram(originalYao, 'originalYaoContainer', 'originalHexagramName');
+                    renderHexagram(changedYao, 'changedYaoContainer', 'changedHexagramName');
+                    
+                    // 生成解读
+                    const { interpretation, luckInfo } = generateInterpretation(originalYao, changedYao, question);
+                    
+                    // 显示结果
+                    document.getElementById('luckBadge').className = `luck-badge ${luckInfo.level}`;
+                    document.getElementById('luckBadge').textContent = luckInfo.text;
+                    document.getElementById('interpretationText').textContent = interpretation;
+                    
+                    // 保存历史
+                    saveHistory(question, getHexagramName(originalYao), getHexagramName(changedYao), interpretation);
+                    
+                    // 隐藏加载，显示结果
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('resultSection').style.display = 'block';
+                    document.getElementById('interpretationSection').style.display = 'block';
+                    
+                    // 滚动到结果区
+                    document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth' });
+                }, 1500);
+            });
+            
+            document.getElementById('resetBtn').addEventListener('click', function() {
+                document.getElementById('question').value = '';
+                document.getElementById('resultSection').style.display = 'none';
+                document.getElementById('interpretationSection').style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>
